@@ -22,13 +22,16 @@ jobs:
           java-version: '17'
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
+        uses: android-actions/setup-android@v4
+        with:
+          # The legacy "tools" SDK package was removed by Google.
+          # Install only platform-tools; cmdline-tools (including sdkmanager)
+          # are installed by the action itself.
+          packages: 'platform-tools'
+          accept-android-sdk-licenses: 'yes'
 
       - name: Install Android platform and build tools
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "platform-tools"
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4

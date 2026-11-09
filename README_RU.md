@@ -20,6 +20,8 @@ https://huggingface.co/tencent/Hy-MT2-1.8B-GGUF/resolve/main/Hy-MT2-1.8B-Q4_K_M.
 
 В проект включён GitHub Actions workflow `.github/workflows/build-android.yml`.
 
+Workflow использует `android-actions/setup-android@v4` и явно устанавливает только `platform-tools`. Старый пакет SDK `tools` удалён Google, поэтому его нельзя запрашивать через `sdkmanager`; сами Command-line Tools (включая `sdkmanager`) устанавливаются action автоматически.
+
 1. Создай пустой GitHub-репозиторий.
 2. Загрузи в него содержимое этого архива (не сам ZIP как один файл).
 3. Открой вкладку **Actions** и запусти **Build Android test APK** через **Run workflow**. Сборка также запускается при push в `main`.
@@ -44,3 +46,7 @@ GitHub Actions автоматически загрузит Android SDK плат�
 - Это диагностический прототип, не интеграция в Tap Translate.
 - Q4_K_M — стандартный файл около 1,13 ГБ; экстремальные 1,25-bit / 2-bit модели здесь не тестируются.
 - Минимум 2 ГБ свободного места рекомендуется для копии файла и временных данных; фактический расход RAM зависит от контекста и ОС.
+
+## Если GitHub Actions сообщает `Failed to find package 'tools'`
+
+Убедись, что в workflow используется `android-actions/setup-android@v4` и задано `packages: 'platform-tools'`. Не добавляй `tools` в список пакетов. Этот архив уже содержит исправленный workflow.
