@@ -21,12 +21,14 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Check workflow configuration
+        run: |
+          echo "Android SDK setup action references in this repository:"
+          grep -R -n "android-actions/setup-android@" .github/workflows || true
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
         with:
-          # The legacy "tools" SDK package was removed by Google.
-          # Install only platform-tools; cmdline-tools (including sdkmanager)
-          # are installed by the action itself.
           packages: 'platform-tools'
           accept-android-sdk-licenses: 'yes'
 
